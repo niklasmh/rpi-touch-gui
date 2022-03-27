@@ -34,15 +34,11 @@ rundstykker
 grandis
 melk
 nudler
-fries
 saft
-brus
-øl
-vin
 mellombar
 kylling
-tacoshell
 nachos
+mais(åpnet)
 `
       .trim()
       .split("\n")
