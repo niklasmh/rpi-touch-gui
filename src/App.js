@@ -55,6 +55,7 @@ nachos
   return (
     <div className="App">
       <div>
+        <button onClick={() => document.documentElement.requestFullscreen()}>Fullscreen</button>
         <button onClick={() => window.location.reload()}>Refresh</button>
         {stuff.map((s) => (
           <button key={s} onClick={() => setList((l) => [...l, { name: s, id: Date.now(), date: Date.now() }])}>
