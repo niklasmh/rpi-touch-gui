@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 
 let initialList = [];
 try {
@@ -55,21 +54,37 @@ nachos
 
   return (
     <div className="App">
-      <button onClick={() => window.location.reload()}>Refresh</button>
-      <br />
-      {stuff.map((s) => (
-        <button key={s} onClick={() => setList((l) => [...l, { name: s, id: Date.now(), date: Date.now() }])}>
-          {s}
-        </button>
-      ))}
-      <br />
-      {list
-        .sort((a, b) => a.date - b.date)
-        .map((e) => (
-          <div key={e.name} onClick={() => setList((l) => l.filter((i) => i.id !== e.id))}>
-            {e.name}
-          </div>
+      <div>
+        <button onClick={() => window.location.reload()}>Refresh</button>
+        {stuff.map((s) => (
+          <button key={s} onClick={() => setList((l) => [...l, { name: s, id: Date.now(), date: Date.now() }])}>
+            {s}
+          </button>
         ))}
+      </div>
+      <div className="items">
+        {Object.values(
+          list
+            .sort((a, b) => b.date - a.date)
+            .reduce((acc, e) => {
+              console.log(acc);
+              return {
+                ...acc,
+                [e.name]: {
+                  ...e,
+                  count: acc[e.name] ? acc[e.name].count + 1 : 1,
+                  onClick: () => setList((l) => l.filter((i) => i.id !== e.id)),
+                },
+              };
+            }, {})
+        )
+          .sort((a, b) => a.date - b.date)
+          .map((e) => (
+            <div key={e.name} onClick={e.onClick} className="item">
+              {e.name} ({e.count})
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
