@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/rpi-touch-gui/static/css/main.964fdded.css",
+    "main.js": "/rpi-touch-gui/static/js/main.bedf322c.js",
+    "static/js/787.57eefa8a.chunk.js": "/rpi-touch-gui/static/js/787.57eefa8a.chunk.js",
+    "index.html": "/rpi-touch-gui/index.html",
+    "main.964fdded.css.map": "/rpi-touch-gui/static/css/main.964fdded.css.map",
+    "main.bedf322c.js.map": "/rpi-touch-gui/static/js/main.bedf322c.js.map",
+    "787.57eefa8a.chunk.js.map": "/rpi-touch-gui/static/js/787.57eefa8a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.964fdded.css",
+    "static/js/main.bedf322c.js"
+  ]
+}
