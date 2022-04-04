@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
 
 let initialList = [];
 let initialZoom = 1;
@@ -11,6 +13,9 @@ function App() {
   const [list, setList] = useState(initialList);
   const [cursorShouldHide, hideCursor] = useState(false);
   const [zoom, setZoom] = useState(initialZoom);
+  const [inputFocus, setInputFocus] = useState(false);
+  const nameRef = useRef();
+  const timeRef = useRef();
 
   // Yup, this is what I eat on a daily basis
   const [stuff] = useState(
@@ -63,6 +68,11 @@ naanbrød 🍞 20
     localStorage.setItem("zoom", JSON.stringify(zoom));
   }, [zoom]);
 
+  const addToList = ({ time, ...item }) => {
+    setInputFocus(false);
+    setList((l) => [...l, { id: Date.now(), expires: Date.now() + time * 24 * 60 * 60 * 1000, ...item }]);
+  };
+
   return (
     <div className="App" style={{ zoom, cursor: cursorShouldHide ? "none" : "default" }}>
       <div>
@@ -71,6 +81,16 @@ naanbrød 🍞 20
         <button onClick={() => hideCursor((hide) => !hide)}>{cursorShouldHide ? "Show" : "Hide"} cursor 🖱</button>
         <button onClick={() => setZoom((zoom) => zoom + 0.1)}>Zoom +</button>
         <button onClick={() => setZoom((zoom) => zoom - 0.1)}>Zoom -</button>
+        <input ref={nameRef} onFocus={() => setInputFocus(true)} />
+        <input ref={timeRef} type="number" defaultValue={5} />
+        <button
+          onClick={() => {
+            addToList({ name: nameRef.current.value, emoji: "", time: timeRef.current.value });
+            nameRef.current.value = "";
+          }}
+        >
+          Add
+        </button>
         {stuff.map(({ name, emoji, time }) =>
           name === "---" ? (
             <div key={emoji} className="gap">
@@ -80,7 +100,7 @@ naanbrød 🍞 20
             <button
               key={name}
               style={{ cursor: cursorShouldHide ? "none" : "default" }}
-              onClick={() => setList((l) => [...l, { name, emoji, id: Date.now(), expires: Date.now() + time }])}
+              onClick={() => addToList({ name, emoji, time })}
             >
               {name} {emoji}
             </button>
@@ -109,6 +129,20 @@ naanbrød 🍞 20
             </div>
           ))}
       </div>
+      {inputFocus && (
+        <div className="keyboard">
+          <Keyboard
+            onChange={(value) => (nameRef.current.value = value)}
+            onKeyPress={(key) => {
+              if (key === "{enter}") {
+                addToList({ name: nameRef.current.value, emoji: "", time: timeRef.current.value });
+                nameRef.current.value = "";
+                setInputFocus(false);
+              }
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

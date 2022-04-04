@@ -21,6 +21,10 @@ button {
   color: #fff;
 }
 
+input[type="number"] {
+  width: 50px;
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -50,4 +54,11 @@ button {
 .gap {
   width: 100%;
   display: inline-block;
+}
+
+.keyboard {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
